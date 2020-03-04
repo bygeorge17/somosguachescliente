@@ -1,0 +1,144 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="../img/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../img/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="../img/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../img/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../img/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../img/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="../img/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../img/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="../img/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">  <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+  <script src="https://kit.fontawesome.com/cd65b026a0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!--[if IE]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div id="somosguachesperfil" class="clearfix bg-SG">
+    <header class="clearfix">
+      <div class="col-sm-3 float-left">
+        <a href="../index.html">
+          <img src="../img/logoSG.png" class="img-fluid">
+        </a>
+      </div>
+      <div class="col-sm-5 float-left">
+        <h1>Perfil</h1>
+      </div>
+      <div class="col-sm-4 float-left align-middle">
+
+      <a href="#" class="link-nav2 align-middle">
+        <i class="fas fa-user-circle icon-nav "></i>
+      </a>
+
+      <a href="#" class="link-nav2 align-middle" @click="like">
+      <i class="fas fa-sign-out-alt icon-nav "></i>
+    </a>
+
+      </div>
+    </header>
+    <div class="clearfix mt-4 mb-4">
+
+      <div class="perfil col-sm-3 float-left text-center">
+        <div class="card">
+          <img id="img-foto-perfil"     :src='profile.foto' class=" img-perfil card-img-top rounded-circle img-fluid">
+          <div class="card-body">
+            <h5 class="card-title"id="linkPerfil">{{profile.nombre}}</h5>
+            <div v-if="editable" class="clearfix">
+              <i class="fas fa-edit menu-perfil mb-3" id="btn-foto-perfil"></i>
+              <i @click="cambiarfoto" class="fas fa-check-square menu-perfil mb-3 d-none" id="btn-enviar" ref="btnEnviar"></i>
+              <form class="" action="http://10.33.54.116:3000/addfotoperfil" method="post" id="frm-foto" enctype="multipart/form-data">
+                <input @change="onFilePerfilSelected" type="file" id="foto-perfil"name="foto-perfil" class="d-none" accept="image/png, image/jpeg, image/jpg">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container col-sm-6 float-left">
+        <div class="publicacionnueva mb-5">
+          <img src="" alt="" id="imgPublicacionPrev" class="img-fluid">
+          <input v-model="txtContenido" @change="onTextChange" type="text" name="txtPublicacion" value="" class="mb-2 input-text2" placeholder="Publica Algo..." id="contenido" >
+          <div class="botones clearfix col-sm-4 text-align-right">
+            <form class="" action="http://10.33.54.116:3000/nuevopostconfoto" method="post" id="formPublicacion" enctype="multipart/form-data">
+              <input  id="txtPublicacion" type="text"class="hidden mb-2 input-text2" placeholder="Publica Algo..."  >
+              <input @change="onFileSelected" type="file" name="imgPublicacion" value="" id="imgPublicacion" class="hidden" accept="image/jpeg, image/tiff,image/gif,image/x-png,image/x-photo-cd,image/x-portablebitmap,image/x-portable-greymap,image/png">
+            </form>
+            <button type="button" name="button"class="ml-1 col-sm-5 btn btn-SG-Principal float-left" id="btnFotoPublicacion"><i class="fas fa-camera"></i></button>
+            <button type="button" name="button"class="ml-1 col-sm-5 btn btn-SG-Principal float-left d-none" id="btnPublicar" @click="newpostconfoto"><i class="fas fa-location-arrow"></i></button>
+            <button type="button" name="button"class="ml-1 col-sm-5 btn btn-SG-Principal float-left" id="btnPublicarSinFoto" @click="newpost"><i class="fas fa-location-arrow"></i></button>
+          </div>
+        </div>
+        <div v-for="publicacion of posts" class="clearfix" >
+          <div class="alert publicaciones clearfix" >
+            <div  v-show='publicacion.foto' class="col-sm-12 float-left">
+            <img v-bind:src='publicacion.foto' alt="" class="img-fluid">
+          </div>
+          <div class="col-sm-12 float-left">
+            {{publicacion.contenido}}
+          </div>
+          <div class="reacciones col-sm-12 float-left">
+            <i @click="like" class="far fa-thumbs-up btn btn-SG-Reacciones">{{publicacion.likes.lenght}}</i>
+            <i @click="dislike" class="far fa-thumbs-down btn btn-SG-Reacciones">{{publicacion.dislikes.lenght}}</i>
+            <i @click="estrella" class="far fa-star btn btn-SG-Reacciones">{{publicacion.estrella.lenght}}</i>
+            <i @click="molesto" class="far fa-angry btn btn-SG-Reacciones">{{publicacion.molesto.lenght}}</i>
+            <i @click="corazon" class="far fa-heart btn btn-SG-Reacciones">{{publicacion.corazon.lenght}}</i>
+          </div>
+          <div class="clearfix ">
+            <button class="btn btn-SG-Principal col-sm-12"type="button" name="button" @click="post(publicacion._id)">Ver Publicacion</button>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="col-sm-3 float-left">
+        Publicidad
+      </div>
+    </div>
+    <footer>
+      <h4>Este sitio ha sido desarrollado por byGeorge</h4>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+
+  <script src="../js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="../js/ip.js"></script>
+  <script src="../js/plugins.js"></script>
+  <script src="../js/perfil.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+  Cookies.set("Cookie1","Publicaciones");
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>

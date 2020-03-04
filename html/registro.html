@@ -1,0 +1,171 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" sizes="57x57" href="../img/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../img/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="../img/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../img/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../img/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../img/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="../img/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../img/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="../img/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../img/favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">  <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+  <!--[if IE]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div id="registrosomosguaches" class="bg-dark text-center">
+    <input id="regName" class=" mb-4  border-bottom form-somosguaches col-sm-9" type="text" v-model="regName" value="" placeholder="Nombre">
+    <div class="d-none alert-danger col-sm-9" id="alertName">
+      <h6 class="alerta text-center">Falta el nombre</h6>
+    </div>
+    <input id="regLast" class=" mb-4  border-bottom form-somosguaches col-sm-9" type="text" v-model="regLast" value="" placeholder="Apellidos">
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertLast">
+      <h6 class="alerta">Faltan los apellidos</h6>
+    </div>
+    <h6 class="text-light">Fecha de Nacimiento</h6>
+    <select v-model="regDia" id="regDia" class="mb-4  border-bottom form-somosguaches col-sm-3 bg-dark" name="dia"required>
+      <option value="">Dia</option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+    <select  v-model="regMes" id="regMes" class="mb-4  border-bottom form-somosguaches col-sm-3 bg-dark" name="mes" required>
+      <option value="">Mes</option>
+      <option value="01">Enero</option>
+      <option value="02">Febrero</option>
+      <option value="03">Marzo</option>
+      <option value="04">Abril</option>
+      <option value="05">Mayo</option>
+      <option value="06">Junio</option>
+      <option value="07">Julio</option>
+      <option value="08">Agosto</option>
+      <option value="09">Septiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    </select>
+    <select  v-model="regYear" id="regYear" class="mb-4  border-bottom form-somosguaches col-sm-3 bg-dark" name="year"  required>
+      <option value="">Año</option>
+    </select>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertFecha">
+      <h6 class="alerta">Revise la fecha de nacimiento</h6>
+    </div>
+    <h6 class="text-light bg-dark">Sexo</h6>
+    <div class="bg-dark form-check col-sm-6 float-left">
+      <input  v-model="regSexo" id="regSexo" class="form-check-input" type="radio" name="regSexo" value="H" required>
+      <label class="text-white form-check-label" for="hombre">
+        Hombre
+      </label>
+    </div>
+    <div class="bg-dark form-check col-sm-6 float-left">
+      <input  v-model="regSexo" id="regSexo" class="form-check-input" type="radio" name="regSexo" value="M" required>
+      <label class="text-white form-check-label" for="mujer">
+        Mujer
+      </label>
+    </div>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertSexo">
+      <h6 class="alerta">Seleccione su sexo por favor</h6>
+    </div>
+    <select  v-model="regEstado" id="regEstado" class="mb-4  border-bottom form-somosguaches col-sm-3 bg-dark" name="estado" required>
+      <option value="">Estado</option>
+      <option value="Guerrero">Guerrero</option>
+      <option value="Michoacan">Michoacan</option>
+      <option value="EstadodeMexico">Estado de Mexico</option>
+    </select>
+    <select  v-model="regMpio" id="regMpio" class="mb-4  border-bottom form-somosguaches col-sm-3 bg-dark" name="municipio" required>
+      <option value="">Municipio</option>
+    </select>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertEdoMpio">
+      <h6 class="alerta">Seleccione su estado y municipio</h6>
+    </div>
+    <input  v-model="regRadica" id="regRadica" class=" mb-4  border-bottom form-somosguaches col-sm-9"type="text" name="radica" placeholder="Radicando en"  ><br>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertRadica">
+      <h6 class="alerta">Indique donde radica</h6>
+    </div>
+    <input  v-model="regUsuario" id="regUsuario" class=" mb-4  border-bottom form-somosguaches col-sm-9"type="email" name="usuario" placeholder="Correo Electronico" id="txt-usuario" required><br>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertUsuario">
+      <h6 class="alerta">Introduzca su correo electronico</h6>
+    </div>
+    <input  v-model="regPassword" id="regPassword" class=" mb-4  border-bottom form-somosguaches col-sm-9"type="password" name="contrasena"  placeholder="Contraseña"><br>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertPassword">
+      <h6 class="alerta">Introduzca una contraseña de 8 digitos (para mayor seguridad mezcle mayusculas minusculas y numeros)</h6>
+    </div>
+    <input  id="regRepPassword" class=" mb-4  border-bottom form-somosguaches col-sm-9"type="password" name="rcontrasena" placeholder="Repetir Contraseña" ><br>
+    <div class="d-none alert-danger col-sm-9" role="alert" id="alertRepContrasena">
+      <h6 class="alerta">Las contraseñas no coinciden</h6>
+    </div>
+    <button @click="signUp" class=" mb-4  btn btn-somosguaches form-somosguaches col-sm-9"type="submit" name=""  id="btn-registrar" >Registrarse</button>
+    <img src="../img/logoSG.png" alt="Logo Somos Guaches" class="img-fluid" id="goHome">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+  <script src="../js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="../js/ip.js"></script>
+  <script src="../js/plugins.js"></script>
+  <script src="../js/registro.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+  window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+  ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>
