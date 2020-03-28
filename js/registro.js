@@ -278,12 +278,13 @@ $(function(){
     // Validamos el campo contraseña
 
     var contrasenaIntroducida;
+    var porcentajeSeguridad=0;
     contrasenaIntroducida=$("#regPassword").val();
-    console.log(contrasenaIntroducida);
     // Validamos que tenga 8 caracteres
     if (contrasenaIntroducida!="") {
       if (contrasenaIntroducida.length>=8) {
-        console.log("ochoDigitos");
+        $("#barraProgreso").removeClass('d-none');
+        $("#barraProgreso").addClass('d-inline-block');
         ochoDigitos=true;
       }else{
         ochoDigitos=false;
@@ -293,69 +294,65 @@ $(function(){
 
       for(i=0; i<numeros.length; i++){
         if (contrasenaIntroducida.includes(numeros.charAt(i))&& !tieneNumeros) {
-          tieneNumeros=true;
-          console.log("tieneNumeros");
+          tieneNumeros=25;
           i=numeros.length+1;
         }else{
-          tieneNumeros=false;
+          tieneNumeros=0;
         }
       }
       // Validamos que tenga minusculas
       var minusculas="abcdefghijklmnñopqrstuvwxyz";
       for(j=0; j<minusculas.length; j++){
         if (contrasenaIntroducida.includes(minusculas.charAt(j))&& !tieneMinusculas){
-          console.log("tieneMinusculas");
-          tieneMinusculas=true;
+          tieneMinusculas=25;
           j=minusculas.length+1;
         }
         else{
-          tieneMinusculas=false;
+          tieneMinusculas=0;
         }
       }
       // Validamos que tenga Mayusculas
       var mayusculas="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
       for(k=0; k<mayusculas.length; k++){
         if (contrasenaIntroducida.includes(mayusculas.charAt(k))){
-          console.log("tieneMayusculas");
-          tieneMayusculas=true;
+          tieneMayusculas=25;
           k=mayusculas-length+1;
         }
         else{
-          tieneMayusculas=false;
+          tieneMayusculas=0;
         }
       }
       // Validamos que tenga Caracteres especiales
       var caracteres="!#$%&'()*+,-./:;={[]}¿?";
       for(l=0; l<caracteres.length;l++){
         if (contrasenaIntroducida.includes(caracteres.charAt(l))){
-          console.log("tieneCaracteres");
-          tieneCaracteres=true;
+          tieneCaracteres=25;
           l=caracteres.length+1
         }
         else{
-          tieneCaracteres=false;
+          tieneCaracteres=0;
         }
       }
-      if (ochoDigitos&&tieneNumeros&&tieneMinusculas&&tieneMayusculas&&tieneCaracteres) {
-
+      if (ochoDigitos) {
         valRegPassword=true;
         $("#alertPassword").addClass('d-none');
         $("#alertPassword").removeClass('d-inline-block');
-        console.log("condiciones cumplidas");
       }else{
-        console.log("Contraseña no segura");
         valRegPassword=false;
         $("#alertPassword").addClass('d-inline-block');
         $("#alertPassword").removeClass('d-none');
       }
     }else{
-      tieneNumeros=false;
-      tieneNumeros=false;
-      tieneMinusculas=false;
-      tieneMayusculas=false;
-      tieneCaracteres=false;
+      tieneNumeros=0;
+      tieneMinusculas=0;
+      tieneMayusculas=0;
+      tieneCaracteres=0;
+      porcentajeSeguridad=0;
+      $("#barraProgreso").addClass('d-none');
+      $("#barraProgreso").removeClass('d-inline-block');
     }
-
+    porcentajeSeguridad=tieneNumeros+tieneCaracteres+tieneMayusculas+tieneMinusculas;
+    animateprogress("#seguridad",porcentajeSeguridad);
   }
   function validarVariables(){
     validarNombre();
@@ -370,20 +367,9 @@ $(function(){
   }
   function validar(){
     if (valRegName&&valRegLast&&valRegSexo&&valRegFecha&&valRegMpio&&valRegEdo&&valRegRadica&&valRegUsuario&&valRegPassword&&valConfirmarContrasena) {
-      console.log("If True");
       $("#btn-registrar").attr('disabled',false);
     }else{
-      console.log("valRegName"+valRegName);
-      console.log("valRegLast"+valRegLast);
-      console.log("valregsexo"+valRegSexo);
-      console.log("valRegFecha"+valRegFecha);
-      console.log("valRegMpio"+valRegMpio);
-      console.log("valRegEdo"+valRegEdo);
-      console.log("valRegRadica"+valRegRadica);
-      console.log("valRegUsuario"+valRegUsuario);
-      console.log("valRegPassword"+valRegPassword);
-      console.log("valConfirmarContrasena"+valConfirmarContrasena);
-      console.log("If False");
+
       $("#btn-registrar").attr('disabled',true);
     }
   }

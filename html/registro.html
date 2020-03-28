@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/normalize.css">
   <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/style.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
@@ -140,6 +141,10 @@
       <h6 class="alerta">Introduzca su correo electronico</h6>
     </div>
     <input  v-model="regPassword" id="regPassword" class=" mb-4  border-bottom form-somosguaches col-sm-9"type="password" name="contrasena"  placeholder="Contraseña"><br>
+    <div class="progress  center">
+      <progress id="seguridad" max="100" value="0"></progress>
+      <span></span>
+    </div>
     <div class="d-none alert-danger col-sm-9" role="alert" id="alertPassword">
       <h6 class="alerta">Introduzca una contraseña de 8 digitos (para mayor seguridad mezcle mayusculas minusculas y numeros)</h6>
     </div>
@@ -158,8 +163,8 @@
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
   <script src="../js/ip.js"></script>
   <script src="../js/plugins.js"></script>
+  <script src="../js/animateprogress.js"></script>
   <script src="../js/registro.js"></script>
-
   <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
   <script>
   window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
