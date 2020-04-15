@@ -1,1 +1,1 @@
-const ipServer="http://68.183.115.138:3000"
+const ipServer="http://10.33.54.116:3000"

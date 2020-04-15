@@ -28,7 +28,8 @@ new Vue({
     txtContenido:'',
     txtComentario:"",
     token:"",
-    pubConContenido:false
+    pubConContenido:false,
+    loadingFotoPublicacion:false
   },
   methods:{
     visitarPerfil: function (id){
@@ -38,8 +39,57 @@ new Vue({
       window.location = "../html/post.html?id="+id;
     },
     onFileSelected (event) {
-      const file = event.target.files[0];
-      formData.append("imgPublicacion",file);
+      var file = event.target.files[0];
+      // formData.append("imgPublicacion",file);
+      console.log(formData);
+      console.log("file Original"+ file);
+      // Comprimir Imagen
+      var canvas = document.createElement( 'canvas' );
+      var width;
+      var height;
+      var img = document.createElement("img");
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        img.src = e.target.result
+
+
+      }
+      reader.readAsDataURL(file);
+      reader.onloadend=function(){
+        width = img.width;
+        height = img.height;
+        console.log(img);
+        console.log("Resolucion:"+width+"x"+height);
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var MAX_WIDTH = 800;
+        var MAX_HEIGHT = 600;
+        console.log("Resolucion Original: "+width+"x"+height);
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        console.log("Resolucion Final: "+width+"x"+height);
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        var link = window.document.createElement( 'a' ),
+            url = canvas.toDataURL("image/png",0.2),
+            file=url;
+            console.log("File Final: "+file);
+            formData.append("imgPublicacion",file);
+            console.log(formData);
+      };
+      // Comprimir Imagen
     },
     onTextChange(event){
       if (this.txtContenido!="" || file) {
@@ -51,7 +101,10 @@ new Vue({
       formData.append("txtPublicacion",texto);
     },
     getposts: async  function (){
-      await  axios.get(urlposts).then(respuestas=>(this.posts=respuestas.data.publicaciones))
+
+      await  axios.get(urlposts,{headers: {'x-access-token': this.token}}).then((respuestas)=>{
+        this.posts=respuestas.data.publicaciones;
+      });
       for (var i = 0; i < this.posts.length; i++) {
         if (this.posts[i].foto) {
           this.posts[i].foto=this.imagen + this.posts[i].foto;
@@ -85,51 +138,57 @@ new Vue({
       }
     },
     getprofile: function(){
-        axios.get(urlProfile,{headers: {'x-access-token': this.token}}).then(respuesta=>(
+      axios.get(urlProfile,{headers: {'x-access-token': this.token}}).then(respuesta=>(
         this.profile=respuesta.data.perfil,
         this.profile.foto=this.imagenPerfil+respuesta.data.perfil.foto
       )
     );
   },
   newpostconfoto:async function(){
+    this.loadingFotoPublicacion=true;
     formData.append("idUsuario",this.profile._id)
-     await axios.post(urlPostFoto,formData,{headers: {'Content-Type': 'multipart/form-data'}}).then((respuesta)=>{
-       this.$refs.imgPublicacionPrev.src="";
-       this.txtContenido="";
-       formData.delete("imgPublicacion");
-       formData.delete("txtPublicacion");
-       console.log(respuesta);
-     }
-   )
-       this.getposts();
-  },
-  newpost:async function(){
-    var data={
-      idUsuario:this.profile._id,
-      txtContenido:this.txtContenido
-    };
-    console.log(data);
-    await axios.post(urlNewPost,data).then(respuesta=>(
-      this.getposts()
-    ));
-    this.txtContenido="";
-  },
-  salir:async  function(){
-    localStorage.clear();
-    window.location.href="../index.html";
-  },
-  like:async  function(id_publicacion){
-    var data={
-      idUsuario:this.profile._id,
-      id_publicacion:id_publicacion
-    };
-    await axios.post(urlLike,data).then(respuesta=>(
-      this.getposts()
-    )
-  );
+    console.log(formData);
+    await axios.post(urlPostFoto,formData,{headers: {'Content-Type': 'multipart/form-data'}}).then((respuesta)=>{
+      this.loadingFotoPublicacion=false;
+      this.$refs.imgPublicacionPrev.src="";
+      this.txtContenido="";
+      formData.delete("imgPublicacion");
+      formData.delete("txtPublicacion");
+      console.log(respuesta);
+    }
+  )
+  this.getposts();
+},
+newpost:async function(){
+  var data={
+    idUsuario:this.profile._id,
+    txtContenido:this.txtContenido
+  };
+  console.log(data);
+  await axios.post(urlNewPost,data).then(respuesta=>(
+    this.getposts()
+  ));
+  this.txtContenido="";
+},
+salir:async  function(){
+  localStorage.clear();
+  window.location.href="../index.html";
+},
+like:async  function(id_publicacion){
+  var data={
+    idUsuario:this.profile._id,
+    id_publicacion:id_publicacion
+  };
+  await axios.post(urlLike,data).then((respuesta)=>{
+    if (respuesta.data.error) {
+      alert("Algo salio mal intenta de nuevo");
+
+    }
+    this.getposts()
+  }
+);
 },
 dislike:async function(id_publicacion){
-  console.log("dislike "+this.profile._id);
   var data={
     idUsuario:this.profile._id,
     id_publicacion:id_publicacion
@@ -173,6 +232,23 @@ corazon:async function(id_publicacion){
 });
 $(function(){
   "use_strict";
+  var socket = io("http://localhost:3001");
+  socket.on("reaccion", function(data) {
+    console.log("Reaccion");
+    if (data.publicador==somosguachespublicaciones.__vue__.profile._id && somosguachespublicaciones.__vue__.profile._id != data.idAutor) {
+
+      Push.create("Somos Guaches", {
+        body: data.autor+" "+data.msg, //this should print "hello"
+        icon: '../favicon.png',
+        onClick: function () {
+          window.focus();
+          this.close();
+        }
+      });
+    }
+  });
+
+
   function filePreview(input) {
     if (input.files && input.files[0]) {
       console.log("Hay imagen");
@@ -181,7 +257,9 @@ $(function(){
       var reader = new FileReader();
       reader.onload = function (e) {
         // $('#frm-foto + img').remove();
-        $('#imgPublicacionPrev').attr('src',e.target.result)
+        $('#imgPublicacionPrev').addClass('orientation');
+        $('#imgPublicacionPrev').attr('src',e.target.result);
+        console.log(e.target.result);
       }
       reader.readAsDataURL(input.files[0]);
     }else{

@@ -108,6 +108,22 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+   .orientation{
+       image-orientation: from-image; /* Can be changed in the live sample */
+      }
+   .loading{
+     height: 50px;
+     width: 50px;
+     position: absolute;
+     display: block;
+     z-index: 2;
+   }
+   .img-perfil{
+     z-index: 1;
+   }
+   .card{
+     position: relative;
+   }
    .hero {
      height: 100vh;
      width: 100vw;
@@ -214,10 +230,10 @@ textarea {
      background-color: var(--SG-bg)
    }
    .img-perfil{
+     image-orientation: from-image;
      width: 200px;
      height: 200px;
-     display: block;
-     margin: auto;
+     padding: 0 auto;
    }
    .redes-sociales a{
      text-decoration: none;
