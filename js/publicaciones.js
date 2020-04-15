@@ -232,7 +232,7 @@ corazon:async function(id_publicacion){
 });
 $(function(){
   "use_strict";
-  var socket = io("http://localhost:3001");
+  var socket = io("http://68.183.115.138:3001");
   socket.on("reaccion", function(data) {
     console.log("Reaccion");
     if (data.publicador==somosguachespublicaciones.__vue__.profile._id && somosguachespublicaciones.__vue__.profile._id != data.idAutor) {
