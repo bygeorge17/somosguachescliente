@@ -1,4 +1,5 @@
 var urlposts=ipServer+"/getposts";
+var urlpostsperfil=ipServer+"/getpostsperfil";
 var urlPostFoto=ipServer+"/nuevopostconfoto";
 var urlNewPost=ipServer+"/nuevopost";
 var urlPostComentario=ipServer+"/agregarcomentario";
@@ -145,7 +146,13 @@ new Vue({
       formData.append("txtPublicacion",texto);
     },
     getposts: async function (){
-      await  axios.get(urlposts).then((respuestas)=>{
+      var urlActual=window.location.href;
+      var dividirCadena= urlActual.split("=");
+      var idPerfilVisitado=dividirCadena[1];
+      var data={
+        idPerfilVisitado:idPerfilVisitado
+      }
+      await  axios.post(urlpostsperfil,data).then((respuestas)=>{
         this.posts=respuestas.data.publicaciones;
       });
       for (var i = 0; i < this.posts.length; i++) {
@@ -221,12 +228,33 @@ new Vue({
         this.getposts();
       });
     },
-    like: function(){
+    logout: function(){
       localStorage.clear();
       window.location.href="../index.html";
     },
-    dislike:async function(){
+    like:async  function(id_publicacion){
+      var data={
+        idUsuario:this.profile._id,
+        id_publicacion:id_publicacion
+      };
+      await axios.post(urlLike,data).then((respuesta)=>{
+        if (respuesta.data.error) {
+          alert("Algo salio mal intenta de nuevo");
 
+        }
+        this.getposts()
+      }
+    );
+    },
+    dislike:async function(id_publicacion){
+      var data={
+        idUsuario:this.profile._id,
+        id_publicacion:id_publicacion
+      };
+      await axios.post(urlDislike,data).then((respuesta)=>{
+        this.getposts();
+      }
+    );
     },
     estrella:async function(){
 

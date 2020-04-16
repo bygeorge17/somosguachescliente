@@ -53,7 +53,7 @@
         <i class="fas fa-user-circle icon-nav "></i>
       </a>
 
-      <a href="#" class="link-nav2 align-middle" @click="like">
+      <a href="#" class="link-nav2 align-middle" @click="logout">
       <i class="fas fa-sign-out-alt icon-nav "></i>
     </a>
 
@@ -94,24 +94,56 @@
         </div>
         <div v-for="publicacion of posts" class="clearfix" >
           <div class="alert publicaciones clearfix" >
+            <div class="col-sm-12 clearfix mb-2 btn border border-radius ver-perfil">
+              <img :src='publicacion.autor[0].foto' alt=""class="avatar float-left">
+              <h6 class="col-sm-10 float-left" @click="visitarPerfil(publicacion.autor[0]._id)">{{publicacion.autor[0].nombre}}</h6>
+              <div class="">
+                <i class="fas fa-minus-circle" v-if="publicacion.deletable" @click="eliminarpost(publicacion._id)"></i>
+              </div>
+            </div>
             <div  v-show='publicacion.foto' class="col-sm-12 float-left">
-              <img src="../sprites/loading.gif" v-if="loadingFotoPublicacion" class="loading">
-            <img v-bind:src='publicacion.foto' alt="" class="img-fluid">
+              <img  :src='publicacion.foto' alt="" class="img-fluid">
+            </div>
+            <div class="col-sm-12 float-left">
+              {{publicacion.contenido}}
+            </div>
+            <div class="reacciones col-sm-12 float-left">
+
+              <div class="float-left clearfix" v-if="publicacion.liked">
+                <i @click="like(publicacion._id)" class="far fa-thumbs-up btn btn-SG-Reacciones liked">{{publicacion.likes.length}}</i>
+              </div>
+              <div class="float-left clearfix" v-else>
+                <i @click="like(publicacion._id)" class="far fa-thumbs-up btn btn-SG-Reacciones">{{publicacion.likes.length}}</i>
+              </div>
+              <div class="float-left clearfix" v-if="publicacion.disliked">
+                <i @click="dislike(publicacion._id)" class="far fa-thumbs-down btn btn-SG-Reacciones disliked">{{publicacion.dislikes.length}}</i>
+              </div>
+              <div class="float-left clearfix" v-else>
+                <i @click="dislike(publicacion._id)" class="far fa-thumbs-down btn btn-SG-Reacciones">{{publicacion.dislikes.length}}</i>
+              </div>
+              <!-- <div class="clearfix float-left" v-if="publicacion.stared" >
+                <i @click="estrella(publicacion._id)" class="far fa-star btn btn-SG-Reacciones stared">{{publicacion.estrella.length}}</i>
+              </div>
+              <div class="clearfix float-left" v-else>
+                <i @click="estrella(publicacion._id)" class="far fa-star btn btn-SG-Reacciones">{{publicacion.estrella.length}}</i>
+              </div>
+              <div class="clearfix float-left" v-if="publicacion.molestado">
+                <i @click="molesto(publicacion._id)" class="far fa-angry btn btn-SG-Reacciones molestado">{{publicacion.molesto.length}}</i>
+              </div>
+              <div class="clearfix float-left" v-else>
+                <i @click="molesto(publicacion._id)" class="far fa-angry btn btn-SG-Reacciones">{{publicacion.molesto.length}}</i>
+              </div>
+              <div class="clear float-left" v-if="publicacion.hearted">
+                <i @click="corazon(publicacion._id)" class="far fa-heart btn btn-SG-Reacciones corazon">{{publicacion.corazon.length}}</i>
+              </div>
+              <div class="clearfix float-left" v-else>
+                <i @click="corazon(publicacion._id)" class="far fa-heart btn btn-SG-Reacciones">{{publicacion.corazon.length}}</i>
+              </div> -->
+            </div>
+            <div class="clearfix ">
+              <button class="btn btn-SG-Principal col-sm-12"type="button" name="button" @click="post(publicacion._id)">Ver Publicacion</button>
+            </div>
           </div>
-          <div class="col-sm-12 float-left">
-            {{publicacion.contenido}}
-          </div>
-          <div class="reacciones col-sm-12 float-left">
-            <i @click="like" class="far fa-thumbs-up btn btn-SG-Reacciones">{{publicacion.likes.lenght}}</i>
-            <i @click="dislike" class="far fa-thumbs-down btn btn-SG-Reacciones">{{publicacion.dislikes.lenght}}</i>
-            <i @click="estrella" class="far fa-star btn btn-SG-Reacciones">{{publicacion.estrella.lenght}}</i>
-            <i @click="molesto" class="far fa-angry btn btn-SG-Reacciones">{{publicacion.molesto.lenght}}</i>
-            <i @click="corazon" class="far fa-heart btn btn-SG-Reacciones">{{publicacion.corazon.lenght}}</i>
-          </div>
-          <div class="clearfix ">
-            <button class="btn btn-SG-Principal col-sm-12"type="button" name="button" @click="post(publicacion._id)">Ver Publicacion</button>
-          </div>
-        </div>
         </div>
       </div>
       <div class="col-sm-3 float-left">
