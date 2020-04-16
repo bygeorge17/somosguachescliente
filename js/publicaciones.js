@@ -1,4 +1,5 @@
 var urlposts=ipServer+"/getposts";
+var urlDeletePost=ipServer+"/deletepost";
 var urlPostFoto=ipServer+"/nuevopostconfoto";
 var urlNewPost=ipServer+"/nuevopost";
 var urlPostComentario=ipServer+"/agregarcomentario";
@@ -100,12 +101,24 @@ new Vue({
       const texto=event.target.value;
       formData.append("txtPublicacion",texto);
     },
+    eliminarpost:async function(pubId){
+      var data={pubId:pubId};
+      await axios.post(urlDeletePost,data).then((respuesta)=>{
+
+      });
+      this.getposts();
+    },
     getposts: async  function (){
 
       await  axios.get(urlposts,{headers: {'x-access-token': this.token}}).then((respuestas)=>{
         this.posts=respuestas.data.publicaciones;
+        console.log(this.posts);
       });
       for (var i = 0; i < this.posts.length; i++) {
+
+        if (this.posts[i].autor[0]._id==this.profile._id) {
+          this.posts[i].deletable=true;
+        }
         if (this.posts[i].foto) {
           this.posts[i].foto=this.imagen + this.posts[i].foto;
         }

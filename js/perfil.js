@@ -3,6 +3,7 @@ var urlPostFoto=ipServer+"/nuevopostconfoto";
 var urlNewPost=ipServer+"/nuevopost";
 var urlPostComentario=ipServer+"/agregarcomentario";
 var urlProfile=ipServer+"/getprofile";
+var urlProfileV=ipServer+"/getprofilevisited";
 var urlFotoPerfil=ipServer+"/addfotoperfil"
 const formData = new FormData();
 new Vue({
@@ -12,11 +13,13 @@ new Vue({
     this.token=localStorage.token;
     this.getprofile();
     this.funcionEditable();
+    console.log("Perfil Visitado:"+this.getprofilevisited);
   },
   data:{
     titulo:"",
     posts:[],
     profile:{},
+    profileVisited:{},
     imagen:ipServer+"/images/pubs/",
     imagenPerfil:ipServer+"/images/usuarios/",
     txtContenido:"",
@@ -150,20 +153,28 @@ new Vue({
       }
     },
     getprofile:async function(){
+      var urlActual=window.location.href;
+      var dividirCadena= urlActual.split("=");
+      var idPerfilVisitado=dividirCadena[1];
       await  axios.get(urlProfile,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
         console.log(respuesta.data.perfil.foto);
         this.profile=respuesta.data.perfil;
         this.profile.foto=this.imagenPerfil+respuesta.data.perfil.foto;
-        var urlActual=window.location.href;
-        var dividirCadena= urlActual.split("=");
-        var idPerfilVisitado=dividirCadena[1];
         if (idPerfilVisitado==this.profile._id) {
           this.editable=true;
         }else{
           this.editable=false;
         }
-
-        console.log("Este perfil es editable"+this.editable);
+      });
+      await  axios.get(urlProfileV+"/"+idPerfilVisitado,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
+        console.log(respuesta.data.perfil);
+        this.profileVisited=respuesta.data.perfil;
+        this.profileVisited.foto=this.imagenPerfil+respuesta.data.perfil.foto;
+        if (idPerfilVisitado==this.profile._id) {
+          this.editable=true;
+        }else{
+          this.editable=false;
+        }
       });
     },
     newpostconfoto:async function(){

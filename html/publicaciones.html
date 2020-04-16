@@ -94,6 +94,9 @@
             <div class="col-sm-12 clearfix mb-2 btn border border-radius ver-perfil">
               <img :src='publicacion.autor[0].foto' alt=""class="avatar float-left">
               <h6 class="col-sm-10 float-left" @click="visitarPerfil(publicacion.autor[0]._id)">{{publicacion.autor[0].nombre}}</h6>
+              <div class="">
+                <i class="fas fa-minus-circle" v-if="publicacion.deletable" @click="eliminarpost(publicacion._id)"></i>
+              </div>
             </div>
             <div  v-show='publicacion.foto' class="col-sm-12 float-left">
               <img  :src='publicacion.foto' alt="" class="img-fluid">

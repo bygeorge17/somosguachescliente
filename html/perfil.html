@@ -64,10 +64,10 @@
       <div class="perfil col-sm-3 float-left text-center">
         <div class="card text-center">
 
-          <img id="img-foto-perfil"     :src='profile.foto' class=" img-perfil card-img-top rounded-circle img-fluid">
+          <img id="img-foto-perfil"     :src='profileVisited.foto' class=" img-perfil card-img-top rounded-circle img-fluid">
           <img src="../sprites/loading.gif" alt="" v-if="loadingFotoPerfil" class="loading">
           <div class="card-body">
-            <h5 class="card-title"id="linkPerfil">{{profile.nombre}}</h5>
+            <h5 class="card-title"id="linkPerfil">{{profileVisited.nombre}}</h5>
             <div v-if="editable" class="clearfix">
               <i class="fas fa-edit menu-perfil mb-3" id="btn-foto-perfil"></i>
               <i @click="cambiarfoto" class="fas fa-check-square menu-perfil mb-3 d-none" id="btn-enviar" ref="btnEnviar"></i>
