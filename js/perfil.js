@@ -6,6 +6,8 @@ var urlPostComentario=ipServer+"/agregarcomentario";
 var urlProfile=ipServer+"/getprofile";
 var urlProfileV=ipServer+"/getprofilevisited";
 var urlFotoPerfil=ipServer+"/addfotoperfil"
+var urlLike=ipServer+"/like";
+var urlDislike=ipServer+"/dislike";
 const formData = new FormData();
 new Vue({
   el:"#somosguachesperfil",
@@ -14,7 +16,6 @@ new Vue({
     this.token=localStorage.token;
     this.getprofile();
     this.funcionEditable();
-    console.log("Perfil Visitado:"+this.getprofilevisited);
   },
   data:{
     titulo:"",
@@ -31,9 +32,6 @@ new Vue({
     loadingFotoPublicacion:false
   },
   methods:{
-    logout: function (){
-
-    },
     funcionEditable:function(){
 
     },
@@ -58,14 +56,12 @@ new Vue({
       reader.onloadend=function(){
         width = img.width;
         height = img.height;
-        console.log(img);
-        console.log("Resolucion:"+width+"x"+height);
+
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
 
         var MAX_WIDTH = 800;
         var MAX_HEIGHT = 600;
-        console.log("Resolucion Original: "+width+"x"+height);
         if (width > height) {
           if (width > MAX_WIDTH) {
             height *= MAX_WIDTH / width;
@@ -77,7 +73,6 @@ new Vue({
             height = MAX_HEIGHT;
           }
         }
-        console.log("Resolucion Final: "+width+"x"+height);
         canvas.width = width;
         canvas.height = height;
         var ctx = canvas.getContext("2d");
@@ -85,7 +80,6 @@ new Vue({
         var link = window.document.createElement( 'a' ),
             url = canvas.toDataURL("image/png",0.2),
             file=url;
-            console.log("File Final: "+file);
             formData.append("imgPublicacion", file);
       };
       // Comprimir Imagen
@@ -107,14 +101,12 @@ new Vue({
       reader.onloadend=function(){
         width = img.width;
         height = img.height;
-        console.log(img);
-        console.log("Resolucion:"+width+"x"+height);
+
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
 
         var MAX_WIDTH = 800;
         var MAX_HEIGHT = 600;
-        console.log("Resolucion Original: "+width+"x"+height);
         if (width > height) {
           if (width > MAX_WIDTH) {
             height *= MAX_WIDTH / width;
@@ -126,7 +118,7 @@ new Vue({
             height = MAX_HEIGHT;
           }
         }
-        console.log("Resolucion Final: "+width+"x"+height);
+
         canvas.width = width;
         canvas.height = height;
         var ctx = canvas.getContext("2d");
@@ -134,14 +126,11 @@ new Vue({
         var link = window.document.createElement( 'a' ),
             url = canvas.toDataURL("image/png",0.2),
             file=url;
-            console.log("File Final: "+file);
             formData.append("foto-perfil", file);
-            console.log(formData);
       };
       // Comprimir Imagen
     },
     onTextChange(event){
-      console.log(event);
       const texto=event.target.value;
       formData.append("txtPublicacion",texto);
     },
@@ -164,7 +153,6 @@ new Vue({
       var dividirCadena= urlActual.split("=");
       var idPerfilVisitado=dividirCadena[1];
       await  axios.get(urlProfile,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
-        console.log(respuesta.data.perfil.foto);
         this.profile=respuesta.data.perfil;
         this.profile.foto=this.imagenPerfil+respuesta.data.perfil.foto;
         if (idPerfilVisitado==this.profile._id) {
@@ -174,7 +162,6 @@ new Vue({
         }
       });
       await  axios.get(urlProfileV+"/"+idPerfilVisitado,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
-        console.log(respuesta.data.perfil);
         this.profileVisited=respuesta.data.perfil;
         this.profileVisited.foto=this.imagenPerfil+respuesta.data.perfil.foto;
         if (idPerfilVisitado==this.profile._id) {
@@ -199,7 +186,6 @@ new Vue({
         idUsuario:this.profile._id,
         txtContenido:this.txtContenido
       };
-      console.log(data);
       await axios.post(urlNewPost,data).then((respuesta)=>{
         this.getposts();
       });
@@ -207,22 +193,18 @@ new Vue({
     },
     cambiarfoto: async function(){
       this.loadingFotoPerfil=true;
-      console.log("idUsuario"+this.profile._id);
       formData.append("idUsuario",this.profile._id)
       axios.interceptors.response.use((response) => {
         // do something with the response data
-        console.log('Response was received');
         return response;
       }, error => {
         // handle the response error
         return Promise.reject(error);
       });
       await axios.post(urlFotoPerfil,formData,{headers: {'Content-Type': 'multipart/form-data'}}).then((respuesta)=>{
-        console.log(respuesta);
         if (!respuesta.data.ocurrioerror) {
           this.$refs.btnEnviar.classList.add("d-none");
           this.$refs.btnEnviar.classList.remove("d-inline");
-          console.log("OK");
           this.loadingFotoPerfil=false;
         }
         this.getposts();
@@ -301,16 +283,13 @@ $(function(){
   $('#foto-perfil').change(function(){
     fotoPerfilPreview(this);
     if ($('#foto-perfil').val()!="") {
-      console.log($('#foto-perfil').val());
       $('#btn-enviar').addClass("d-inline").removeClass("d-none");
     }else{
-      console.log($('#foto-perfil').val());
       $('#btn-enviar').addClass("d-none").removeClass("d-inline");
 
     }
   });
   $('#btn-foto-perfil').click(function(){
-    console.log("clic");
     $('#foto-perfil').click();
   });
   function fotoPerfilPreview(input) {
