@@ -2,6 +2,10 @@ var urlProfile=ipServer+"/getprofile";
 var urlMensajes=ipServer+"/getmensajes";
 var urlEnviarMensaje=ipServer+"/sendmensaje";
 var urlConversacion=ipServer+"/getConversacion";
+var urlProfileV=ipServer+"/getprofilevisited";
+var destinatariosTemp=[];
+
+
 
 new Vue({
   el:"#somosguachesmensajes",
@@ -13,7 +17,8 @@ new Vue({
     var dividirCadena= urlActual.split("=");
     var destinatario=dividirCadena[1];
     this.destinatario=destinatario;
-    this.getprofile();
+    this.getprofile().then(function(){
+    });
     this.getMensajes();
     if (this.destinatario) {
       this.getConversacion(this.destinatario);
@@ -29,6 +34,7 @@ new Vue({
     mensajes:[],
     conversacion:{},
     profile:{},
+    profileVisited:{},
     titulo:"Mensajes",
     usuario:"",
     contrasena:"",
@@ -39,44 +45,53 @@ new Vue({
 
   },
   methods:{
-    getprofile:  function(){
-      axios.get(urlProfile,{headers: {'x-access-token': this.token}}).then(respuesta=>{
+    getprofile:async  function(){
+
+    await   axios.get(urlProfile,{headers: {'x-access-token': this.token}}).then(respuesta=>{
         this.profile=respuesta.data.perfil;
         this.profile.foto=this.imagenPerfil+respuesta.data.perfil.foto;
       }
     );
+
   },
   getMensajes:async function(){
-     await axios.get(urlMensajes,{headers: {'x-access-token': this.token}}).then(respuesta=>{
-      this.mensajes=respuesta.data.mensajes;
-      var destinatariosTemp=[];
-      for (var i = 0; i < this.mensajes.length; i++) {
-        this.mensajes[i].para.foto=this.imagenPerfil+this.mensajes[i].para.foto;
-        this.mensajes[i].de.foto=this.imagenPerfil+this.mensajes[i].de.foto;
-        if (this.mensajes[i].para._id != this.profile._id && this.mensajes[i].de._id == this.profile._id ) {
-          destinatariosTemp.push(this.mensajes[i].para)
+    var urlActual=window.location.href;
+    var dividirCadena= urlActual.split("=");
+    var destinatario=dividirCadena[1];
+    await  axios.get(urlProfileV+"/"+destinatario,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
+      this.profileVisited=respuesta.data.perfil;
+      this.profileVisited.foto=this.imagenPerfil+respuesta.data.perfil.foto;
+      destinatariosTemp.push(this.profileVisited);
+       axios.get(urlMensajes,{headers: {'x-access-token': this.token}}).then(respuesta=>{
+        this.mensajes=respuesta.data.mensajes;
+        for (var i = 0; i < this.mensajes.length; i++) {
+          this.mensajes[i].para.foto=this.imagenPerfil+this.mensajes[i].para.foto;
+          this.mensajes[i].de.foto=this.imagenPerfil+this.mensajes[i].de.foto;
+          if (this.mensajes[i].para._id != this.profile._id && this.mensajes[i].de._id == this.profile._id ) {
+            destinatariosTemp.push(this.mensajes[i].para)
+          }
+          if (this.mensajes[i].de._id != this.profile._id && this.mensajes[i].para._id != this.profile._id) {
+            destinatariosTemp.push(this.mensajes[i].de)
+          }
         }
-        if (this.mensajes[i].de._id != this.profile._id && this.mensajes[i].para._id != this.profile._id) {
-          destinatariosTemp.push(this.mensajes[i].de)
+        function removeDuplicates(originalArray, prop) {
+          var newArray = [];
+          var lookupObject  = {};
+
+          for(var i in originalArray) {
+            lookupObject[originalArray[i][prop]] = originalArray[i];
+          }
+
+          for(i in lookupObject) {
+            newArray.push(lookupObject[i]);
+          }
+          return newArray;
         }
+
+        this.destinatarios = removeDuplicates(destinatariosTemp, "_id");
       }
-      function removeDuplicates(originalArray, prop) {
-     var newArray = [];
-     var lookupObject  = {};
-
-     for(var i in originalArray) {
-        lookupObject[originalArray[i][prop]] = originalArray[i];
-     }
-
-     for(i in lookupObject) {
-         newArray.push(lookupObject[i]);
-     }
-      return newArray;
- }
-
- this.destinatarios = removeDuplicates(destinatariosTemp, "_id");
-    }
-  );
+    );
+    });
   },
   getConversacion:async function(idDestinatario){
     this.destinatario=idDestinatario;
