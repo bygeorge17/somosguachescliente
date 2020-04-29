@@ -1,4 +1,5 @@
 var urlposts=ipServer+"/getposts";
+var urlNotificaciones=ipServer+"/getnotificaciones";
 var urlpostsperfil=ipServer+"/getpostsperfil";
 var urlPostFoto=ipServer+"/nuevopostconfoto";
 var urlNewPost=ipServer+"/nuevopost";
@@ -16,10 +17,12 @@ new Vue({
     this.token=localStorage.token;
     this.getprofile();
     this.funcionEditable();
+    this.getnotificaciones();
   },
   data:{
     titulo:"",
     posts:[],
+    notificaciones:[],
     profile:{},
     profileVisited:{},
     imagen:ipServer+"/images/pubs/",
@@ -78,9 +81,9 @@ new Vue({
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         var link = window.document.createElement( 'a' ),
-            url = canvas.toDataURL("image/png",0.2),
-            file=url;
-            formData.append("imgPublicacion", file);
+        url = canvas.toDataURL("image/jpeg",0.3),
+        file=url;
+        formData.append("imgPublicacion", file);
       };
       // Comprimir Imagen
     },
@@ -124,15 +127,18 @@ new Vue({
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         var link = window.document.createElement( 'a' ),
-            url = canvas.toDataURL("image/png",0.2),
-            file=url;
-            formData.append("foto-perfil", file);
+        url = canvas.toDataURL("image/jpeg",0.3),
+        file=url;
+        formData.append("foto-perfil", file);
       };
       // Comprimir Imagen
     },
     onTextChange(event){
       const texto=event.target.value;
       formData.append("txtPublicacion",texto);
+    },
+    irMensajes:function(id){
+      window.location.href="mensajes.html?id="+id;
     },
     getposts: async function (){
       var urlActual=window.location.href;
@@ -147,6 +153,16 @@ new Vue({
       for (var i = 0; i < this.posts.length; i++) {
         this.posts[i].foto=this.imagen + this.posts[i].foto;
       }
+    },
+    getnotificaciones:async function(){
+      await  axios.get(urlNotificaciones,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
+        this.notificaciones=respuesta.data.notificaciones;
+        for (var i = 0; i < this.notificaciones.length; i++) {
+          this.notificaciones[i].autor[0].foto=this.imagenPerfil+this.notificaciones[i].autor[0].foto
+          this.notificaciones[i].publicacion[0].foto=this.imagenPerfil+this.notificaciones[i].publicacion[0].foto
+
+        }
+      });
     },
     getprofile:async function(){
       var urlActual=window.location.href;
@@ -171,13 +187,22 @@ new Vue({
         }
       });
     },
+    clearData:function(){
+      formData.forEach(function(val, key, fD){
+        // here you can add filtering conditions
+        formData.delete(key);
+      });
+      this.$refs.img_Publicacion.value="";
+      this.$refs.foto_perfil.value="";
+    },
     newpostconfoto:async function(){
       this.loadingFotoPublicacion=true;
       formData.append("idUsuario",this.profile._id)
       await axios.post(urlPostFoto,formData,{headers: {'Content-Type': 'multipart/form-data'}}).then((respuesta)=>{
-        formData.delete("idUsuario");
-        formData.delete("foto-perfil");
+        this.$refs.imgPublicacionPrev.src="";
+        this.$refs.img_Publicacion.value="";
         this.loadingFotoPublicacion=false;
+        this.clearData();
         this.getposts();
       });
     },
@@ -227,27 +252,27 @@ new Vue({
         this.getposts()
       }
     );
-    },
-    dislike:async function(id_publicacion){
-      var data={
-        idUsuario:this.profile._id,
-        id_publicacion:id_publicacion
-      };
-      await axios.post(urlDislike,data).then((respuesta)=>{
-        this.getposts();
-      }
-    );
-    },
-    estrella:async function(){
-
-    },
-    molesto:async function(){
-
-    },
-    corazon:async function(){
-
+  },
+  dislike:async function(id_publicacion){
+    var data={
+      idUsuario:this.profile._id,
+      id_publicacion:id_publicacion
+    };
+    await axios.post(urlDislike,data).then((respuesta)=>{
+      this.getposts();
     }
-  }
+  );
+},
+estrella:async function(){
+
+},
+molesto:async function(){
+
+},
+corazon:async function(){
+
+}
+}
 });
 $(function(){
 
@@ -288,6 +313,10 @@ $(function(){
       $('#btn-enviar').addClass("d-none").removeClass("d-inline");
 
     }
+  });
+
+  $('#foto-perfil').click(function(){
+    $('#foto-perfil').value="";
   });
   $('#btn-foto-perfil').click(function(){
     $('#foto-perfil').click();

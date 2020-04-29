@@ -2,24 +2,24 @@
 
 /* main.css 2.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
 /*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
+* What follows is the result of much research on cross-browser styling.
+* Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+* Kroc Camen, and the H5BP dev community and team.
+*/
 
 /* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-   :root{
-     --SG-bg: #393e46;
-     --SG-bg2: #5c636e;
-     --SG-color: #f96d00;
-     --SG-accent: #f2f2f2;
-     --SG-disliked:green;
-     --SG-star: yellow;
-     --SG-molestado:red;
-     --SG-corazon:#8B0000;
-   }
+Base styles: opinionated defaults
+========================================================================== */
+:root{
+  --SG-bg: #393e46;
+  --SG-bg2: #5c636e;
+  --SG-color: #f96d00;
+  --SG-accent: #f2f2f2;
+  --SG-disliked:green;
+  --SG-star: yellow;
+  --SG-molestado:red;
+  --SG-corazon:#8B0000;
+}
 
 html {
   color: #222;
@@ -29,14 +29,14 @@ html {
 }
 
 /*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * Vendor-prefixed and regular ::selection selectors cannot be combined:
- * https://stackoverflow.com/a/16982510/7133471
- *
- * Customize the background color to match your design.
- */
+* Remove text-shadow in selection highlight:
+* https://twitter.com/miketaylr/status/12228805301
+*
+* Vendor-prefixed and regular ::selection selectors cannot be combined:
+* https://stackoverflow.com/a/16982510/7133471
+*
+* Customize the background color to match your design.
+*/
 
 ::-moz-selection {
   background: #b3d4fc;
@@ -49,8 +49,8 @@ html {
 }
 
 /*
- * A better looking default horizontal rule
- */
+* A better looking default horizontal rule
+*/
 
 hr {
   display: block;
@@ -62,10 +62,10 @@ hr {
 }
 
 /*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
+* Remove the gap between audio, canvas, iframes,
+* images, videos and the bottom of their containers:
+* https://github.com/h5bp/html5-boilerplate/issues/440
+*/
 
 audio,
 canvas,
@@ -77,8 +77,8 @@ video {
 }
 
 /*
- * Remove default fieldset styles.
- */
+* Remove default fieldset styles.
+*/
 
 fieldset {
   border: 0;
@@ -87,16 +87,16 @@ fieldset {
 }
 
 /*
- * Allow only vertical resizing of textareas.
- */
+* Allow only vertical resizing of textareas.
+*/
 
 textarea {
   resize: vertical;
 }
 
 /* ==========================================================================
-   Browser Upgrade Prompt
-   ========================================================================== */
+Browser Upgrade Prompt
+========================================================================== */
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -106,220 +106,264 @@ textarea {
 }
 
 /* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-   .orientation{
-       image-orientation: from-image; /* Can be changed in the live sample */
-      }
-   .loading{
-     height: 50px;
-     width: 50px;
-     position: absolute;
-     display: block;
-     z-index: 2;
-   }
-   .img-perfil{
-     z-index: 1;
-   }
-   .card{
-     position: relative;
-   }
-   .hero {
-     height: 100vh;
-     width: 100vw;
-     background-image: url("../img/hero.jpg");
-   }
-   .login{
-     max-width: 400px;
-     background-color: var(--SG-bg);
-     opacity: 0.9;
-   }
-   .input-text{
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	outline: none;
-	display: block;
-	width: 100%;
-	padding: 7px;
-	border: none;
-	border-bottom: 1px solid #ddd;
-	background: transparent;
-	margin-bottom: 10px;
-	font: 16px Arial, Helvetica, sans-serif;
-	height: 45px;
-   }
-   .input-text2{
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	outline: none;
-	display: block;
-	width: 100%;
-	padding: 7px;
-	border: none;
-	border-bottom: 1px solid #ddd;
-	background: transparent;
-	margin-bottom: 10px;
-	font: 16px Arial, Helvetica, sans-serif;
-	height: 45px;
+Author's custom styles
+========================================================================== */
+
+.msjTexto{
+  font-family: 'Varela Round', sans-serif;
+  font-weight: bold;
+}
+.avatarMsj{
+  height: 25px;
+  width: 25px;
+}
+
+.personas{
+  height: 70vh;
+}
+.lectura{
+  height: 70vh;
+  overflow-y: scroll;
+}
+.escribir{
+  height: 10vh;
+}
+
+.ventana-chat{
+  width: 200px;
+  height: 350px;
+  background-color: red;
+}
+
+.notificacion:hover{
+  cursor: pointer;
+}
+
+.imgNotificacion{
+  width: 25px;
+}
+
+.encima{
+  z-index: 100;
+}
+
+
+.cantidad-notificaciones{
+  font-size: 0.6rem;
+}
+
+.orientation{
+  image-orientation: from-image; /* Can be changed in the live sample */
+}
+.loading{
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  display: block;
+  z-index: 2;
+}
+.img-perfil{
+  z-index: 1;
+}
+.card{
+  position: relative;
+}
+.hero {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../img/hero.jpg");
+}
+.login{
+  max-width: 400px;
+  background-color: var(--SG-bg);
+  opacity: 0.9;
+}
+.input-text{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 45px;
+}
+.input-text2{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 45px;
   color: white;
-   }
-   .input-text3{
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	outline: none;
-	display: block;
-	width: 100%;
-	padding: 7px;
-	border: none;
-	border-bottom: 1px solid #ddd;
-	background: transparent;
-	margin-bottom: 10px;
-	font: 16px Arial, Helvetica, sans-serif;
-	height: 45px;
-   }
-   .btn-SG-Principal{
-     background-color: var(--SG-color);
-     font-weight: bold;
-   }
-   .btn-SG-Reacciones{
-     font-weight: bold;
-     color: var(--SG-bg2);
-   }
-   .btn-SG-Reacciones:hover{
-     cursor: pointer;
-   }
-   .btn-SG-Secundario{
-     background-color: var(--SG-accent);
-     width: 100%;
-     font-weight: bold;
-   }
-   footer,header{
-     background-color: var(--SG-color);
-     width: 100vw;
-     height: auto;
-   }
-   .form-somosguaches{
-     padding: 2px 0px;
-     background: transparent;
-     border: 0;
-     border-bottom: 1px solid rgba(255,255,255,0.04);
-     outline: none;
-     color:var(--SG-accent);
-     font-size: 1em;
-     text-align: center;
-   }
-   .btn-somosguaches{
-     background: var(--SG-bg);
-     border: 0;
-     height: 40px;
-     border-radius: 3px;
-     color: var(--SG-accent);
-     cursor: pointer;
-     transition: background 0.4s ease-in-out;
-   }
-   .btn-somosguaches:hover {
-     background: var(--SG-color);
-   }
-   .publicaciones{
-     background-color: var(--SG-accent);
-   }
-   .bg-SG{
-     background-color: var(--SG-bg)
-   }
-   .img-perfil{
-     image-orientation: from-image;
-     width: 200px;
-     height: 200px;
-     padding: 0 auto;
-   }
-   .redes-sociales a{
-     text-decoration: none;
-     font-size: 2em;
-     color: var(--SG-accent);
-     padding: 5px 15px;
-     margin-top: 20px;
-     transition: color 0.4s ease-in-out;
+}
+.input-text3{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 45px;
+}
+.btn-SG-Principal{
+  background-color: var(--SG-color);
+  font-weight: bold;
+}
+.btn-SG-Reacciones{
+  font-weight: bold;
+  color: var(--SG-bg2);
+}
+.btn-SG-Reacciones:hover{
+  cursor: pointer;
+}
+.btn-SG-Secundario{
+  background-color: var(--SG-accent);
+  width: 100%;
+  font-weight: bold;
+}
+footer,header{
+  background-color: var(--SG-color);
+  width: 100vw;
+  height: auto;
+}
+.form-somosguaches{
+  padding: 2px 0px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  outline: none;
+  color:var(--SG-accent);
+  font-size: 1em;
+  text-align: center;
+}
+.btn-somosguaches{
+  background: var(--SG-bg);
+  border: 0;
+  height: 40px;
+  border-radius: 3px;
+  color: var(--SG-accent);
+  cursor: pointer;
+  transition: background 0.4s ease-in-out;
+}
+.btn-somosguaches:hover {
+  background: var(--SG-color);
+}
+.publicaciones{
+  background-color: var(--SG-accent);
+}
+.bg-SG{
+  background-color: var(--SG-bg)
+}
+.img-perfil{
+  image-orientation: from-image;
+  width: 200px;
+  height: 200px;
+  padding: 0 auto;
+}
+.redes-sociales a{
+  text-decoration: none;
+  font-size: 2em;
+  color: var(--SG-accent);
+  padding: 5px 15px;
+  margin-top: 20px;
+  transition: color 0.4s ease-in-out;
 
-   }
-   nav.redes-sociales a:hover{
-     color: var(--SG-color);
-   }
-   .link-nav{
-     text-decoration: none;
-     font-size: 2em;
-     color: var(--SG-accent);
-     padding: 5px 15px;
-     margin-top: 20px;
-     transition: color 0.4s ease-in-out;
-   }
-   .link-nav:hover{
-     color: var(--SG-color);
-   }
-   .link-nav2{
-     text-decoration: none;
-     font-size: 2em;
-     color: var(--SG-accent);
-     padding: 5px 15px;
-     margin-top: 20px;
-     transition: color 0.4s ease-in-out;
-   }
-   .link-nav2:hover{
-     color: var(--SG-bg2);
-   }
-   .menu-nav{
+}
+nav.redes-sociales a:hover{
+  color: var(--SG-color);
+}
+.link-nav{
+  text-decoration: none;
+  font-size: 2em;
+  color: var(--SG-accent);
+  padding: 5px 15px;
+  margin-top: 20px;
+  transition: color 0.4s ease-in-out;
+}
+.link-nav:hover{
+  color: var(--SG-color);
+}
+.link-nav2{
+  text-decoration: none;
+  font-size: 2em;
+  color: var(--SG-accent);
+  padding: 5px 15px;
+  margin-top: 20px;
+  transition: color 0.4s ease-in-out;
+}
+.link-nav2:hover{
+  color: var(--SG-bg2);
+}
+.menu-nav{
 
-   }
-   .alerta{
-     font-size: 1em;
-   }
-   #goHome{
-     cursor: pointer;
-   }
-   .menu-perfil{
-    text-align: center;
-    text-decoration: none;
-    font-size: 2em;
-    padding: .5em .5em .5em .5em;
-    color: var(--SG-color);
-    transition: color 0.4s ease-in-out;
-    cursor: pointer;
-  }
-  .avatar{
-    height: 25px;
-    width:25px;
-  }
-  .ver-perfil{
-    cursor: pointer;
-  }
-  .liked{
-    color: var(--SG-color);
-    font-weight: bold;
-  }
-  .disliked{
-    color: var(--SG-disliked);
-    font-weight: bold;
-  }
-  .stared{
-    color: var(--SG-star);
-  }
-  .molestado{
-    color: var(--SG-molestado);
-    font-weight: bold;
-  }
-  .corazon{
-    color: var(--SG-corazon);
-    font-weight: bold;
-  }
+}
+.alerta{
+  font-size: 1em;
+}
+#goHome{
+  cursor: pointer;
+}
+.menu-perfil{
+  text-align: center;
+  text-decoration: none;
+  font-size: 2em;
+  padding: .5em .5em .5em .5em;
+  color: var(--SG-color);
+  transition: color 0.4s ease-in-out;
+  cursor: pointer;
+}
+.avatar{
+  height: 25px;
+  width:25px;
+}
+.ver-perfil{
+  cursor: pointer;
+}
+.liked{
+  color: var(--SG-color);
+  font-weight: bold;
+}
+.disliked{
+  color: var(--SG-disliked);
+  font-weight: bold;
+}
+.stared{
+  color: var(--SG-star);
+}
+.molestado{
+  color: var(--SG-molestado);
+  font-weight: bold;
+}
+.corazon{
+  color: var(--SG-corazon);
+  font-weight: bold;
+}
 /* ==========================================================================
-   Helper classes
-   ========================================================================== */
+Helper classes
+========================================================================== */
 
 /*
- * Hide visually and from screen readers
- */
+* Hide visually and from screen readers
+*/
 
 .hidden {
   display: none !important;
@@ -397,27 +441,27 @@ textarea {
 }
 
 /* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
+EXAMPLE Media Queries for Responsive Design.
+These examples override the primary ('mobile first') styles.
+Modify as content requires.
+========================================================================== */
 
 @media only screen and (min-width: 35em) {
   /* Style adjustments for viewports that meet the condition */
 }
 
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 1.25dppx),
-  (min-resolution: 120dpi) {
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 1.25dppx),
+(min-resolution: 120dpi) {
   /* Style adjustments for high resolution devices */
 }
 
 /* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
+Print styles.
+Inlined to avoid the additional HTTP request:
+https://www.phpied.com/delay-loading-your-print-css/
+========================================================================== */
 
 @media print {
   *,
@@ -441,9 +485,9 @@ textarea {
     content: " (" attr(title) ")";
   }
   /*
-     * Don't show links that are fragment identifiers,
-     * or use the `javascript:` pseudo protocol
-     */
+  * Don't show links that are fragment identifiers,
+  * or use the `javascript:` pseudo protocol
+  */
   a[href^="#"]:after,
   a[href^="javascript:"]:after {
     content: "";
@@ -457,9 +501,9 @@ textarea {
     page-break-inside: avoid;
   }
   /*
-     * Printing Tables:
-     * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
-     */
+  * Printing Tables:
+  * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
+  */
   thead {
     display: table-header-group;
   }

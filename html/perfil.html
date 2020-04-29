@@ -49,13 +49,29 @@
       </div>
       <div class="col-sm-4 float-left align-middle">
 
-      <a href="#" class="link-nav2 align-middle">
-        <i class="fas fa-user-circle icon-nav "></i>
-      </a>
+        <a href="#" class=" col-sm-3 float-left link-nav2 align-middle">
+          <i class="fas fa-user-circle icon-nav "></i>
+        </a>
 
-      <a href="#" class="link-nav2 align-middle" @click="logout">
-      <i class="fas fa-sign-out-alt icon-nav "></i>
-    </a>
+        <a href="#" class=" col-sm-3 float-left link-nav2 align-middle" @click="logout">
+          <i class="fas fa-sign-out-alt icon-nav "></i>
+        </a>
+        <a  href="#divNotificaciones" class="col-sm-3 float-left link-nav2 align-middle" data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="divNotificaciones">
+          <i class="fas fa-bell"><span class="badge badge-light cantidad-notificaciones">{{notificaciones.length}}</span></i>
+        </a>
+        <div  class="mt-5 position-absolute collapse encima" id="divNotificaciones">
+          <div v-for="notificacion in notificaciones" class="mt-1">
+            <div class="card notificacion" @click="leernotificacion(notificacion._id)">
+              <div class="card-body">
+                <img :src="notificacion.autor[0].foto" class="imgNotificacion">
+                <p class="card-text btn"><small class="text-muted"><b>{{ notificacion.autor[0].nombre }}</b> {ha comentado tu publicacion}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="col-sm-3 float-left link-nav2 align-middle" >
+          <i class="fas fa-comments"></i>
+        </a>
 
       </div>
     </header>
@@ -72,20 +88,29 @@
               <i class="fas fa-edit menu-perfil mb-3" id="btn-foto-perfil"></i>
               <i @click="cambiarfoto" class="fas fa-check-square menu-perfil mb-3 d-none" id="btn-enviar" ref="btnEnviar"></i>
               <form class="" method="post" id="frm-foto" enctype="multipart/form-data">
-                <input @change="onFilePerfilSelected" type="file" id="foto-perfil"name="foto-perfil" class="d-none" accept="image/png, image/jpeg, image/jpg">
+                <input @click="clearData" @change="onFilePerfilSelected" ref="foto_perfil" type="file" id="foto-perfil"name="foto-perfil" class="d-none" accept="image/png, image/jpeg, image/jpg">
               </form>
+            </div>
+            <div v-if="!editable" class="clearfix">
+              <div class="menu-perfil"  >
+                <i class="fas fa-comment-dots" @click="irMensajes(profileVisited._id)"></i>
+              </div>
+              <div class="collapse bg-dark" id="divMensaje">
+                <input  type="text"class="mb-2 input-text2" placeholder="Deja un mensaje..."  >
+              </div>
+
             </div>
           </div>
         </div>
       </div>
       <div class="container col-sm-6 float-left">
         <div class="publicacionnueva mb-5">
-          <img src="" alt="" id="imgPublicacionPrev" class="img-fluid">
+          <img ref="imgPublicacionPrev" src="" alt="" id="imgPublicacionPrev" class="img-fluid">
           <input v-model="txtContenido" @change="onTextChange" type="text" name="txtPublicacion" value="" class="mb-2 input-text2" placeholder="Publica Algo..." id="contenido" >
           <div class="botones clearfix col-sm-4 text-align-right">
             <form class="" method="post" id="formPublicacion" enctype="multipart/form-data">
               <input  id="txtPublicacion" type="text"class="hidden mb-2 input-text2" placeholder="Publica Algo..."  >
-              <input @change="onFileSelected" type="file" name="imgPublicacion" value="" id="imgPublicacion" class="hidden" accept="image/jpeg, image/tiff,image/gif,image/x-png,image/x-photo-cd,image/x-portablebitmap,image/x-portable-greymap,image/png">
+              <input @click="clearData" ref="img_Publicacion" @change="onFileSelected" type="file" name="imgPublicacion" value="" id="imgPublicacion" class="hidden" accept="image/jpeg, image/tiff,image/gif,image/x-png,image/x-photo-cd,image/x-portablebitmap,image/x-portable-greymap,image/png">
             </form>
             <button type="button" name="button"class="ml-1 col-sm-5 btn btn-SG-Principal float-left" id="btnFotoPublicacion"><i class="fas fa-camera"></i></button>
             <button type="button" name="button"class="ml-1 col-sm-5 btn btn-SG-Principal float-left d-none" id="btnPublicar" @click="newpostconfoto"><i class="fas fa-location-arrow"></i></button>
@@ -122,58 +147,58 @@
                 <i @click="dislike(publicacion._id)" class="far fa-thumbs-down btn btn-SG-Reacciones">{{publicacion.dislikes.length}}</i>
               </div>
               <!-- <div class="clearfix float-left" v-if="publicacion.stared" >
-                <i @click="estrella(publicacion._id)" class="far fa-star btn btn-SG-Reacciones stared">{{publicacion.estrella.length}}</i>
-              </div>
-              <div class="clearfix float-left" v-else>
-                <i @click="estrella(publicacion._id)" class="far fa-star btn btn-SG-Reacciones">{{publicacion.estrella.length}}</i>
-              </div>
-              <div class="clearfix float-left" v-if="publicacion.molestado">
-                <i @click="molesto(publicacion._id)" class="far fa-angry btn btn-SG-Reacciones molestado">{{publicacion.molesto.length}}</i>
-              </div>
-              <div class="clearfix float-left" v-else>
-                <i @click="molesto(publicacion._id)" class="far fa-angry btn btn-SG-Reacciones">{{publicacion.molesto.length}}</i>
-              </div>
-              <div class="clear float-left" v-if="publicacion.hearted">
-                <i @click="corazon(publicacion._id)" class="far fa-heart btn btn-SG-Reacciones corazon">{{publicacion.corazon.length}}</i>
-              </div>
-              <div class="clearfix float-left" v-else>
-                <i @click="corazon(publicacion._id)" class="far fa-heart btn btn-SG-Reacciones">{{publicacion.corazon.length}}</i>
-              </div> -->
+              <i @click="estrella(publicacion._id)" class="far fa-star btn btn-SG-Reacciones stared">{{publicacion.estrella.length}}</i>
             </div>
-            <div class="clearfix ">
-              <button class="btn btn-SG-Principal col-sm-12"type="button" name="button" @click="post(publicacion._id)">Ver Publicacion</button>
-            </div>
+            <div class="clearfix float-left" v-else>
+            <i @click="estrella(publicacion._id)" class="far fa-star btn btn-SG-Reacciones">{{publicacion.estrella.length}}</i>
           </div>
+          <div class="clearfix float-left" v-if="publicacion.molestado">
+          <i @click="molesto(publicacion._id)" class="far fa-angry btn btn-SG-Reacciones molestado">{{publicacion.molesto.length}}</i>
         </div>
+        <div class="clearfix float-left" v-else>
+        <i @click="molesto(publicacion._id)" class="far fa-angry btn btn-SG-Reacciones">{{publicacion.molesto.length}}</i>
       </div>
-      <div class="col-sm-3 float-left">
-        Publicidad
-      </div>
+      <div class="clear float-left" v-if="publicacion.hearted">
+      <i @click="corazon(publicacion._id)" class="far fa-heart btn btn-SG-Reacciones corazon">{{publicacion.corazon.length}}</i>
     </div>
-    <footer>
-      <h4>Este sitio ha sido desarrollado por byGeorge</h4>
-    </footer>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <div class="clearfix float-left" v-else>
+    <i @click="corazon(publicacion._id)" class="far fa-heart btn btn-SG-Reacciones">{{publicacion.corazon.length}}</i>
+  </div> -->
+</div>
+<div class="clearfix ">
+  <button class="btn btn-SG-Principal col-sm-12"type="button" name="button" @click="post(publicacion._id)">Ver Publicacion</button>
+</div>
+</div>
+</div>
+</div>
+<div class="col-sm-3 float-left">
+  Publicidad
+</div>
+</div>
+<footer>
+  <h4>Este sitio ha sido desarrollado por byGeorge</h4>
+</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
 
-  <script src="../js/vendor/modernizr-3.7.1.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="../js/vendor/modernizr-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-  <script src="../js/ip.js"></script>
-  <script src="../js/plugins.js"></script>
-  <script src="../js/perfil.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+<script src="../js/ip.js"></script>
+<script src="../js/plugins.js"></script>
+<script src="../js/perfil.js"></script>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-  Cookies.set("Cookie1","Publicaciones");
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+<script>
+Cookies.set("Cookie1","Publicaciones");
+window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
 </body>
 
 </html>

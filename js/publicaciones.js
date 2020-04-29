@@ -1,4 +1,6 @@
 var urlposts=ipServer+"/getposts";
+var urlNotificaciones=ipServer+"/getnotificaciones";
+var urlLeerNotificacion=ipServer+"/leernotificacion";
 var urlDeletePost=ipServer+"/deletepost";
 var urlPostFoto=ipServer+"/nuevopostconfoto";
 var urlNewPost=ipServer+"/nuevopost";
@@ -19,10 +21,12 @@ new Vue({
     }
     this.getprofile();
     this.getposts();
+    this.getnotificaciones();
   },
   data:{
     titulo:"",
     posts:[],
+    notificaciones:[],
     profile:{},
     imagen:ipServer+"/images/pubs/",
     imagenPerfil:ipServer+"/images/usuarios/",
@@ -42,8 +46,6 @@ new Vue({
     onFileSelected (event) {
       var file = event.target.files[0];
       // formData.append("imgPublicacion",file);
-      console.log(formData);
-      console.log("file Original"+ file);
       // Comprimir Imagen
       var canvas = document.createElement( 'canvas' );
       var width;
@@ -59,14 +61,11 @@ new Vue({
       reader.onloadend=function(){
         width = img.width;
         height = img.height;
-        console.log(img);
-        console.log("Resolucion:"+width+"x"+height);
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
 
         var MAX_WIDTH = 800;
         var MAX_HEIGHT = 600;
-        console.log("Resolucion Original: "+width+"x"+height);
         if (width > height) {
           if (width > MAX_WIDTH) {
             height *= MAX_WIDTH / width;
@@ -78,17 +77,14 @@ new Vue({
             height = MAX_HEIGHT;
           }
         }
-        console.log("Resolucion Final: "+width+"x"+height);
         canvas.width = width;
         canvas.height = height;
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         var link = window.document.createElement( 'a' ),
-            url = canvas.toDataURL("image/png",0.2),
-            file=url;
-            console.log("File Final: "+file);
-            formData.append("imgPublicacion",file);
-            console.log(formData);
+        url = canvas.toDataURL("image/jpeg",0.2),
+        file=url;
+        formData.append("imgPublicacion",file);
       };
       // Comprimir Imagen
     },
@@ -108,11 +104,37 @@ new Vue({
       });
       this.getposts();
     },
+    clearData:function(){
+      formData.forEach(function(val, key, fD){
+        // here you can add filtering conditions
+        formData.delete(key);
+      });
+      this.$refs.img_Publicacion.value="";
+    },
+    getnotificaciones:async function(){
+      await  axios.get(urlNotificaciones,{headers: {'x-access-token': this.token}}).then((respuesta)=>{
+        this.notificaciones=respuesta.data.notificaciones;
+        for (var i = 0; i < this.notificaciones.length; i++) {
+          this.notificaciones[i].autor[0].foto=this.imagenPerfil+this.notificaciones[i].autor[0].foto
+          this.notificaciones[i].publicacion[0].foto=this.imagenPerfil+this.notificaciones[i].publicacion[0].foto
+
+        }
+      });
+
+    },
+    leernotificacion:async function (id){
+      var data={
+        id:id
+      };
+      await  axios.post(urlLeerNotificacion,data).then((respuesta)=>{
+
+      });
+      this.getnotificaciones();
+    },
     getposts: async  function (){
 
       await  axios.get(urlposts,{headers: {'x-access-token': this.token}}).then((respuestas)=>{
         this.posts=respuestas.data.publicaciones;
-        console.log(this.posts);
       });
       for (var i = 0; i < this.posts.length; i++) {
 
@@ -160,14 +182,11 @@ new Vue({
   newpostconfoto:async function(){
     this.loadingFotoPublicacion=true;
     formData.append("idUsuario",this.profile._id)
-    console.log(formData);
     await axios.post(urlPostFoto,formData,{headers: {'Content-Type': 'multipart/form-data'}}).then((respuesta)=>{
       this.loadingFotoPublicacion=false;
       this.$refs.imgPublicacionPrev.src="";
       this.txtContenido="";
-      formData.delete("imgPublicacion");
-      formData.delete("txtPublicacion");
-      console.log(respuesta);
+      this.clearData();
     }
   )
   this.getposts();
@@ -177,7 +196,6 @@ newpost:async function(){
     idUsuario:this.profile._id,
     txtContenido:this.txtContenido
   };
-  console.log(data);
   await axios.post(urlNewPost,data).then(respuesta=>(
     this.getposts()
   ));
@@ -245,9 +263,9 @@ corazon:async function(id_publicacion){
 });
 $(function(){
   "use_strict";
-  var socket = io("http://68.183.115.138:3001");
+  var socket = io("http://localhost:3001");
+
   socket.on("reaccion", function(data) {
-    console.log("Reaccion");
     if (data.publicador==somosguachespublicaciones.__vue__.profile._id && somosguachespublicaciones.__vue__.profile._id != data.idAutor) {
 
       Push.create("Somos Guaches", {
@@ -264,7 +282,6 @@ $(function(){
 
   function filePreview(input) {
     if (input.files && input.files[0]) {
-      console.log("Hay imagen");
       $("#btnPublicar").removeClass('d-none');
       $("#btnPublicarSinFoto").addClass('d-none');
       var reader = new FileReader();
@@ -272,11 +289,9 @@ $(function(){
         // $('#frm-foto + img').remove();
         $('#imgPublicacionPrev').addClass('orientation');
         $('#imgPublicacionPrev').attr('src',e.target.result);
-        console.log(e.target.result);
       }
       reader.readAsDataURL(input.files[0]);
     }else{
-      console.log("No hay imagen");
       $("#btnPublicar").addClass('d-none');
       $("#btnPublicarSinFoto").removeClass('d-none');
     }

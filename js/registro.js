@@ -34,7 +34,6 @@ new Vue({
         radica:this.regRadica,
         usuario:this.regUsuario,
         contrasena:this.regPassword}).then((respuesta)=>{
-          console.log(respuesta);
           if (respuesta.data.auth) {
             localStorage.token=respuesta.data.token;
             window.location.href = "./publicaciones.html";
@@ -118,7 +117,6 @@ $(function(){
     validar();
   });
   $("#regName").keyup(function(){
-    console.log("Escribiendo nombre");
     validarNombre();
     validar();
   });
@@ -205,7 +203,6 @@ $(function(){
   function validarSexo(){
     // Validamos el campo sexo
     if ($("input:radio[name='regSexo']").is(":checked")) {
-      console.log("Se ha elegido un sexo");
       valRegSexo=true;
       $("#alertSexo").addClass('d-none');
       $("#alertSexo").removeClass('d-inline-block');

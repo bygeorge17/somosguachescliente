@@ -1,0 +1,127 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="../img/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../img/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="../img/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../img/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../img/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../img/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="../img/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../img/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="../img/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Place favicon.ico in the root directory -->
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/main.css">
+
+  <script src="https://kit.fontawesome.com/cd65b026a0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!--[if IE]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div id="somosguachesmensajes" class="clearfix bg-SG">
+    <header class="clearfix">
+      <div class="col-sm-3 float-left">
+        <a href="../index.html">
+          <img src="../img/logoSG.png" class="img-fluid">
+        </a>
+      </div>
+      <div class="col-sm-5 float-left">
+        <h1>Mensajes</h1>
+      </div>
+
+    </header>
+    <div class="clearfix mt-4 mb-4">
+      <div class="col-sm-9 float-left">
+        <div class="personas col-sm-3 float-left">
+          <div class="card-chat notificacion" v-for="destinatario in destinatarios">
+
+            <div class="card-body-chat" @click="getConversacion(destinatario._id)">
+              <img :src="destinatario.foto" class="rounded-pill imgNotificacion">
+              <p class="card-text btn"><small class="text-muted"><b>{{destinatario.nombre}}</b></small></p>
+            </div>
+          </div>
+
+        </div>
+        <div class="mensajes col-sm-9 float-left">
+          <div class="lectura col-sm-12 float-left" id="conversacion">
+            <div class="" v-for="mensaje in conversacion" >
+              <div class="col-sm-12 clearfix">
+                <div v-if="mensaje.enviado" class="d-block mb-2 col-sm-12  clearfix  rounded-pill">
+                  <p class="bg-secondary float-right msjTexto text-right rounded-pill"><img :src="mensaje.de.foto" class="bg-secondary rounded-pill float-right avatarMsj ">{{mensaje.msg}}</p>
+                </div>
+                <div v-if="mensaje.recibido" class="col-sm-12 clearfix   rounded-pill d-block mb-2">
+                  <p class="float-left msjTexto bg-light rounded-pill">{{mensaje.msg}}<img :src="mensaje.de.foto" class=" rounded-pill float-left avatarMsj "></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="escribir col-sm-12 float-left">
+            <input v-model="txtMensaje"  type="text" name="txtmensaje" value="" class="mb-2 input-text2 col-sm-10 float-left" placeholder="Publica Algo..." >
+            <button type="button" name="button"class="col-sm-2 btn btn-SG-Principal float-left" @click="enviarMensaje"><i class="fas fa-location-arrow" ></i></button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="col-sm-3 float-left">
+        Publicidad
+      </div>
+    </div>
+    <footer>
+      <h4>Este sitio ha sido desarrollado por byGeorge</h4>
+    </footer>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+
+  <script src="../js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.9/push.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+  <script src="../js/ip.js"></script>
+  <script src="../js/plugins.js"></script>
+  <script src="../js/mensajes.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>

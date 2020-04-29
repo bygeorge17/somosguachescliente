@@ -47,35 +47,29 @@ new Vue({
   },
     getpost: async function (){
       await  axios.get(urlPost).then((respuestas)=>{
-        console.log(respuestas.data.publicacion[0].comentarios[0]);
         this.posts=respuestas.data.publicacion;
         this.posts[0].autor[0].foto=imagenPerfil+ respuestas.data.publicacion[0].autor[0].foto;
         for (var j = 0; j < this.posts[0].likes.length; j++) {
-          console.log("cantidad de likes"+j);
           if (this.posts[0].likes[j].likes==this.profile._id) {
             this.posts[0].liked=true;
           }
         }
         for (var k = 0; k < this.posts[0].dislikes.length; k++) {
-          console.log("cantidad de likes"+j);
           if (this.posts[0].dislikes[k].dislikes==this.profile._id) {
             this.posts[0].disliked=true;
           }
         }
         for (var l = 0; l < this.posts[0].estrella.length; l++) {
-          console.log("cantidad de likes"+j);
           if (this.posts[0].estrella[l].estrella==this.profile._id) {
             this.posts[0].stared=true;
           }
         }
         for (var m= 0; m < this.posts[0].molesto.length; m++) {
-          console.log("cantidad de likes"+j);
           if (this.posts[0].molesto[m].molesto==this.profile._id) {
             this.posts[0].molestado=true;
           }
         }
         for (var n= 0; n < this.posts[0].corazon.length; n++) {
-          console.log("cantidad de likes"+j);
           if (this.posts[0].corazon[n].corazon==this.profile._id) {
             this.posts[0].hearted=true;
           }
@@ -106,7 +100,6 @@ new Vue({
     );
   },
   dislike:async function(id_publicacion){
-    console.log("dislike "+this.profile._id);
     var data={
       idUsuario:this.profile._id,
       id_publicacion:id_publicacion
@@ -167,7 +160,6 @@ $(function(){
     $('#formContenido').val()=$('#contenido').val();
   });
   // $('#btnPublicar').click(function(){
-  //   console.log($('#imgPublicacion').val());
   //   if ($('#imgPublicacion').val()) {
   //     $('#formPublicacion').submit();
   //   }
