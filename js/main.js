@@ -1,8 +1,5 @@
 var urlposts=ipServer+"/getposts";
 var urlLogin=ipServer+"/login";
-const router=new VueRouter({
-  mode:'history'
-});
 new Vue({
   el:"#somosguaches",
   created:function(){
@@ -16,7 +13,6 @@ new Vue({
     usuario:"",
     contrasena:"",
     token:"",
-    router:router
   },
   methods:{
     getposts: async function (){

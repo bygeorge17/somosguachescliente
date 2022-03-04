@@ -236,6 +236,7 @@ Author's custom styles
   cursor: pointer;
 }
 .btn-SG-Secundario{
+  cursor: pointer;
   background-color: var(--SG-accent);
   width: 100%;
   font-weight: bold;
