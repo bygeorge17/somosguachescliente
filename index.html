@@ -56,12 +56,12 @@
 
       </div>
       <div v-else class="clearfix">
-        <form  class="d-inline-block login col-sm-12" action="http://10.33.54.116:3000/login" method="post">
+        <div  class="d-inline-block login col-sm-12">
           <input class="col-sm-12 float-left mt-3 input-text" type="text" name="usuario" placeholder="Usuario" required v-model="usuario">
           <input class="col-sm-12 float-left mt-3 input-text" type="password" name="contrasena" placeholder="Contraseña" required v-model="contrasena">
           <input class="btn btn-SG-Principal mt-3" type="submit" name="" value="Iniciar Sesion" @click="login">
           <button class="btn btn-SG-Secundario mt-3 mb-3" type="button" name="button" id="btnRegistrarse">Registrate</button>
-        </form>
+        </div>
       </div>
     </div>
   </div>
