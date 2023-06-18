@@ -33,7 +33,9 @@ new Vue({
         estado:this.regEstado,
         radica:this.regRadica,
         usuario:this.regUsuario,
-        contrasena:this.regPassword}).then((respuesta)=>{
+        contrasena: this.regPassword
+      }).then((respuesta) => {
+          console.log(respuesta.data)
           if (respuesta.data.auth) {
             localStorage.token=respuesta.data.token;
             window.location.href = "./publicaciones.html";
