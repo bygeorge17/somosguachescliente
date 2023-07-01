@@ -263,7 +263,7 @@ corazon:async function(id_publicacion){
 });
 $(function(){
   "use_strict";
-  var socket = io(ipServer);
+  var socket = io("http://146.190.199.189:3001");
 
   socket.on("reaccion", function(data) {
     if (data.publicador==somosguachespublicaciones.__vue__.profile._id && somosguachespublicaciones.__vue__.profile._id != data.idAutor) {
